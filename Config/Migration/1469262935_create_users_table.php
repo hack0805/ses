@@ -18,7 +18,7 @@ class CreateUsersTable extends CakeMigration {
 			'create_table' => array(
     			'users' => array(
         			'id' => array(
-            			'type'    =>'string',
+            			'type'    =>'integer',
             			'null'    => false,
             			'default' => null,
             			'key'     => 'primary'
@@ -48,11 +48,15 @@ class CreateUsersTable extends CakeMigration {
             			'null'    => false,
             			'default' => null
         			),
-        			'index' => array(
+        			'indexes' => array(
             			'PRIMARY' => array(
         	        		'column' => 'id',
             	    		'unique' => 1
             			),
+                        'EMAIL' => array(
+        	        		'column' => 'email',
+            	    		'unique' => 1
+                        ),
         			),
     			),
 			),
