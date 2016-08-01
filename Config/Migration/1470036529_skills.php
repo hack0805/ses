@@ -38,6 +38,7 @@ class Skills extends CakeMigration {
 						'type'     => 'integer',
 						'null'     => false,
 						'default'  => null,
+						'length'   => 2,
 					),
 					'updated'  => array(
 						'type'    => 'datetime',
