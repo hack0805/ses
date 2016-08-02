@@ -1,107 +1,27 @@
 <?php
-App::uses('AppController', 'Controller');
-/**
- * Users Controller
- *
- * @property User $User
- * @property PaginatorComponent $Paginator
- */
+
 class UsersController extends AppController {
 
-	/**
-	 * Components
-	 *
-	 * @var array
-	 */
-	public $components = array('Paginator');
-
-	public function beforeFilter() {
-		$this->layout = 'admin';
-	}
-	/**
-	 * index method
-	 *
-	 * @return void
-	 */
 	public function index() {
-		$this->User->recursive = 0;
-		$this->set('users', $this->Paginator->paginate());
+		$this->set('users', $this->User->find('all'));
 	}
 
-	/**
-	 * view method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-	public function view($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$options = array('conditions' => array('User.'.$this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-	}
-
-	/**
-	 * add method
-	 *
-	 * @return void
-	 */
-	public function add() {
+	public function add_step1() {
 		if ($this->request->is('post')) {
 			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Flash->success(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The user could not be saved. Please, try again.'));
+			if ($this->User->validates()) {
+				// 正しい場合のロジック
+				return $this->redirect(['action' => 'add_step3']);
 			}
 		}
 	}
 
-	/**
-	 * edit method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-	public function edit($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->User->save($this->request->data)) {
-				$this->Flash->success(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The user could not be saved. Please, try again.'));
-			}
-		} else {
-			$options             = array('conditions' => array('User.'.$this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-		}
+	public function add_step2() {
+
 	}
 
-	/**
-	 * delete method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Flash->success(__('The user has been deleted.'));
-		} else {
-			$this->Flash->error(__('The user could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
+	public function add_step3() {
+
 	}
+
 }

@@ -64,7 +64,7 @@ class CreateUsersTable extends CakeMigration {
 						'null'    => false,
 						'default' => null,
 					),
-					'mailnum'  => array(
+					'postal'  => array(
 						'type'    => 'integer',
 						'null'    => false,
 						'default' => null,
