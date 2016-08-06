@@ -91,7 +91,7 @@ class CreateJobsTable extends CakeMigration {
 						'null' => false,
 						'default' => null
 					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+					// 'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 			),
 		),
