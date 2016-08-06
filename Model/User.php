@@ -12,17 +12,25 @@ class User extends AppModel {
 	 * @var array
 	 */
 	public $validate = array(
-		'email'     => array(
-			'email'    => array(
-				'rule'    => array('notBlank'),
-				'rule'    => array('email', true),
-				'message' => 'メールアドレスを入力してください',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+		'email'     => [
+			'required' => [
+				'rule'    => 'notBlank',
+				'message' => 'メールアドレスを入力してください'
+			],
+			'validEmail' => [
+				'rule'      => 'email',
+				'message'   => '正しいメールアドレスを入力してください'
+			],
+			'emailExists' => [
+				'rule'       => ['isUnique', 'email'],
+				'message'    => '入力されたメールアドレスは既に登録されています'
+			],
+			//'allowEmpty' => false,
+			//'required' => false,
+			//'last' => false, // Stop validation after this rule
+			//'on' => 'create', // Limit validation to 'create' or 'update' operations
+		],
+
 		'first_name' => array(
 			'notBlank'  => array(
 				'rule'     => array('notBlank'),
@@ -84,36 +92,24 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'password'  => array(
-			'notBlank' => array(
-				'rule'    => array('notBlank'),
-				'message' => 'パスワードを入力してください',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		// 'postal'          => array(
-		// 	'notBlank' => array(
-		// 'rule'    => array('notBlank'),
-		//      'message' => '郵便番号を入力してください',
-		// 		//'allowEmpty' => false,
-		// 		//'required' => false,
-		// 		//'last' => false, // Stop validation after this rule
-		// 		//'on' => 'create', // Limit validation to 'create' or 'update' operations
-		// 	),
-		// ),
-		// 'address'          => array(
-		// 	'notBlank' => array(
-		// 		'rule'    => array('notBlank'),
-		// 		// 'message' => 'を入力してください',
-		// 		//'allowEmpty' => false,
-		// 		//'required' => false,
-		// 		//'last' => false, // Stop validation after this rule
-		// 		//'on' => 'create', // Limit validation to 'create' or 'update' operations
-		// 	),
-		// ),
+		'password'  => [
+			'required' => [
+				'rule'    => 'notBlank',
+				'message' => 'パスワードを入力してください'
+			],
+			// バリデーションにメソッドを指定
+			'match'    => [
+				'rule'    => 'passwordConfirm',
+				'message' => 'パスワードが一致していません'
+			],
+		],
+		'password_confirm' => [
+			'required'        => [
+				'rule'           => 'notBlank',
+				'message'        => 'パスワード(確認)を入力してください'
+			],
+		],
+
 		'closest_line' => array(
 			'notBlank'    => array(
 				'rule'       => array('notBlank'),

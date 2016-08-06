@@ -2,20 +2,28 @@
 
 class UsersController extends AppController {
 
+	public $paginate = array(
+		'limit'         => 1,
+		'order'         => array(
+			'User.created' => 'DESC',
+		)
+	);
+
 	public function index() {
-		//usersテーブルから全てのデータをさらってUserモデルを経由してビューに表示する
+		//から全てのデータをさらってUserモデルのfindメソッドをビューに表示する
+		//フォームの内容を取得してUserモデルで処理
 		$this->set('users', $this->User->find('all'));
 	}
 
 	public function add_step1() {
 		//フォームが送信されたら
 		if ($this->request->is('post')) {
-			//Userモデルクラスから新規
+			//Userコントローラに対応するモデルの中身を空にする｡DBからデフォルトの値をもってくる
 			$this->User->create();
 			//Userモデルからバリデーションをチェックしにいく
 			if ($this->User->validates()) {
-				// 正しい場合のロジック
-				return $this->redirect(['action' => 'add_step3']);
+				// 正しい場合のロジック 正しくない場合はif文を抜けてファイルの先頭に戻る
+				return $this->redirect(['action' => 'add_fin']);
 			}
 		}
 	}
@@ -25,6 +33,18 @@ class UsersController extends AppController {
 	}
 
 	public function add_step3() {
+
+	}
+
+	public function add_fin() {
+
+	}
+	public function login() {
+
+		if ($this->request->is('post')) {
+			$this->Flash->success('ログインしました');
+			return $this->redirect(['action' => 'index']);
+		}
 
 	}
 
